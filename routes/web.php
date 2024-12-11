@@ -19,3 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/profile/{nama}/{kelas}/{npm}', [ProfileController::class, 'profile']);
+// Route untuk halaman profile
+Route::get('/user/profile', [UserController::class, 'profile']);
+// Route untuk halaman create
+Route::get('/user/create', [UserController::class, 'create']);
