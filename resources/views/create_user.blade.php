@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Create</title>
+    <title>Create User</title>
 </head>
 <body>
-    <h1>Ini Halaman Create</h1>
+    <h1>Halaman Create User</h1>
     
     <form action="{{ route('user.store') }}" method="POST">
-        @csrf <!-- Token CSRF untuk keamanan -->
+        @csrf
         
-        <label for="nama">Nama:</label>
+        <label for="nama">Nama:</label><br>
         <input type="text" name="nama" id="nama" required><br><br>
-        
-        <label for="npm">NPM:</label>
+
+        <label for="npm">NPM:</label><br>
         <input type="text" name="npm" id="npm" required><br><br>
-        
-        <label for="kelas">Kelas:</label>
-        <input type="text" name="kelas" id="kelas" required><br><br>
-        
+
+        <!-- Ubah input kelas menjadi select -->
+        <label for="id_kelas">Kelas:</label><br>
+        <select name="kelas_id" id="id_kelas" required>
+            @foreach ($kelas as $kelasItem)
+                <option value="{{ $kelasItem->id }}">{{ $kelasItem->nama_kelas }}</option>
+            @endforeach
+        </select><br><br>
+
         <button type="submit">Submit</button>
     </form>
 </body>
