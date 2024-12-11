@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,17 +20,20 @@ Route::get('/', function () {
 });
 
 Route::get('/profile/{nama}/{kelas}/{npm}', [ProfileController::class, 'profile']);
-// Route untuk halaman profile
-Route::get('/user/profile', [UserController::class, 'profile']);
-// Route untuk halaman create
-Route::get('/user/create', [UserController::class, 'create']);
-Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
 
-// Route untuk menampilkan form create user
-Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+Route::get('/user/profile', [UserController::class, 
+'profile']);
 
-// Route untuk menyimpan data user
-Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+Route::get('/user/create', [UserController::class, 'create'])->name('users.create');
 
-// Route untuk menampilkan profile user setelah data disimpan
-Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
+
+Route::post('/user/store', [UserController::class, 
+'store'])->name('user.store');
+
+Route::get('/user', [UserController::class, 'index'])->name('users.list');
+
+Route::get('/show/{id}', [UserController::class, 'show'])->name('users.show');
+
+Route::put('/user/{id}', [UserController::class, 'update'])->name('users.update');
+Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('users.destroy');
