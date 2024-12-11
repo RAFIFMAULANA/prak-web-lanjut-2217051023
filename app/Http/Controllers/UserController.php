@@ -2,49 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserModel;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    // Fungsi untuk menampilkan form create user
     public function create()
     {
-        // Membuat objek dari model Kelas
-        $kelasModel = new Kelas();
-
-        // Mengambil data kelas menggunakan method getKelas()
-        $kelas = $kelasModel->getKelas();
-
-        // Mengirim data kelas ke view
-        $data = [
-            'kelas' => $kelas,
-        ];
-
-        return view('create_user', $data);
+        return view('create_user', [
+            'kelas' => Kelas::all(),  // Mengambil semua data kelas untuk ditampilkan pada dropdown
+        ]);
     }
-}
-<?php
 
-namespace App\Http\Controllers;
-
-use App\Models\Kelas;
-use Illuminate\Http\Request;
-
-class UserController extends Controller
-{
-    public function create()
+    // Fungsi untuk menyimpan data user
+    public function store(Request $request)
     {
-        // Membuat objek dari model Kelas
-        $kelasModel = new Kelas();
+        // Validasi input dari form
+        $validatedData = $request->validate([
+            'nama' => 'required|string|max:255',
+            'npm' => 'required|string|max:255',
+            'kelas_id' => 'required|exists:kelas,id', // Validasi kelas_id agar sesuai dengan data di tabel kelas
+        ]);
 
-        // Mengambil data kelas menggunakan method getKelas()
-        $kelas = $kelasModel->getKelas();
+        // Menyimpan data user ke dalam tabel user
+        $user = UserModel::create($validatedData);
 
-        // Mengirim data kelas ke view
-        $data = [
-            'kelas' => $kelas,
-        ];
+        // Memuat relasi kelas
+        $user->load('kelas');
 
-        return view('create_user', $data);
+        // Mengembalikan data ke view profile dengan informasi user dan kelas
+        return view('profile', [
+            'nama' => $user->nama,
+            'npm' => $user->npm,
+            'nama_kelas' => $user->kelas->nama_kelas ?? 'Kelas tidak ditemukan',
+        ]);
     }
 }
