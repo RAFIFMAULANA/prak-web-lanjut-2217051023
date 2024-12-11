@@ -9,12 +9,15 @@ class Kelas extends Model
 {
     use HasFactory;
 
-    // Menentukan nama tabel yang digunakan
+    protected $guarded = ['id'];
+
+    public function user(){
+        return $this->hasMany(UserModel::class, 'kelas_id');
+    }
+
     protected $table = 'kelas';
 
-    // Method untuk mengambil semua data kelas
-    public function getKelas()
-    {
+    public function getKelas(){ 
         return $this->all();
-    }
+    } 
 }
