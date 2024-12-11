@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,13 @@ Route::get('/profile/{nama}/{kelas}/{npm}', [ProfileController::class, 'profile'
 Route::get('/user/profile', [UserController::class, 'profile']);
 // Route untuk halaman create
 Route::get('/user/create', [UserController::class, 'create']);
+Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+
+// Route untuk menampilkan form create user
+Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+
+// Route untuk menyimpan data user
+Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+
+// Route untuk menampilkan profile user setelah data disimpan
+Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
