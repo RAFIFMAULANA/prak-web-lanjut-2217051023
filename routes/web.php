@@ -34,3 +34,9 @@ Route::post('/user/store', [UserController::class, 'store'])->name('user.store')
 
 // Route untuk menampilkan profile user setelah data disimpan
 Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
+
+// Route untuk menampilkan halaman edit user
+Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+
+// Route untuk mengupdate data user
+Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');

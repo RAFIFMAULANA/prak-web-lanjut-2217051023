@@ -3,40 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserModel;
-use App\Models\Kelas;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    // Fungsi untuk menampilkan form create user
-    public function create()
+    // Fungsi untuk menampilkan halaman edit user
+    public function edit($id)
     {
-        return view('create_user', [
-            'kelas' => Kelas::all(),  // Mengambil semua data kelas untuk ditampilkan pada dropdown
+        // Ambil data user berdasarkan ID
+        $user = UserModel::findOrFail($id);
+
+        // Kirim data user ke view edit_user
+        return view('edit_user', [
+            'user' => $user,
         ]);
     }
 
-    // Fungsi untuk menyimpan data user
-    public function store(Request $request)
+    // Fungsi untuk mengupdate data user
+    public function update(Request $request, $id)
     {
-        // Validasi input dari form
+        // Validasi data
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
             'npm' => 'required|string|max:255',
-            'kelas_id' => 'required|exists:kelas,id', // Validasi kelas_id agar sesuai dengan data di tabel kelas
+            'kelas_id' => 'required|exists:kelas,id',
         ]);
 
-        // Menyimpan data user ke dalam tabel user
-        $user = UserModel::create($validatedData);
+        // Cari user berdasarkan ID dan update data
+        $user = UserModel::findOrFail($id);
+        $user->update($validatedData);
 
-        // Memuat relasi kelas
-        $user->load('kelas');
-
-        // Mengembalikan data ke view profile dengan informasi user dan kelas
-        return view('profile', [
-            'nama' => $user->nama,
-            'npm' => $user->npm,
-            'nama_kelas' => $user->kelas->nama_kelas ?? 'Kelas tidak ditemukan',
-        ]);
+        // Redirect ke halaman list user atau halaman sukses
+        return redirect()->route('user.list')->with('success', 'Data user berhasil diperbarui!');
     }
 }
