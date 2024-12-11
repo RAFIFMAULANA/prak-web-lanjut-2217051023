@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ini Halaman Create</title>
+    <title>Halaman Create</title>
 </head>
 <body>
-    <h1>Ini Halaman Create Rafif maulana</h1> <!-- Teks yang diminta ditambahkan di sini -->
+    <h1>Ini Halaman Create</h1>
+    
+    <form action="{{ route('user.store') }}" method="POST">
+        @csrf <!-- Token CSRF untuk keamanan -->
+        
+        <label for="nama">Nama:</label>
+        <input type="text" name="nama" id="nama" required><br><br>
+        
+        <label for="npm">NPM:</label>
+        <input type="text" name="npm" id="npm" required><br><br>
+        
+        <label for="kelas">Kelas:</label>
+        <input type="text" name="kelas" id="kelas" required><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
